@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "306577115469",
+    "project_id": "tracking-driving",
+    "storage_bucket": "tracking-driving.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306577115469:android:799a8abd1b107a81380f04",
+        "android_client_info": {
+          "package_name": "com.example.viptrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306577115469-uj941gd67p2rgbus2q2pql4udhuk07oo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.viptrack",
+            "certificate_hash": "7a5372499725ab3c09582681ff874d5d8f184d1a"
+          }
+        },
+        {
+          "client_id": "306577115469-lfbtivkple1el35e5qu25ikerm6esld2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3gqQw888-KFagIR79r7IsRYOtMaLFMX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306577115469-j9844ontrnuo2u9c02h3subpv39u4g96.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "306577115469-91ao4b1s8gj52im7bf2t5n7b86ah0v4r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.trackingDriving"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
