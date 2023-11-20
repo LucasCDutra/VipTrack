@@ -6,10 +6,9 @@ import 'package:geocoder2/geocoder2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart' as loc;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:viptrack/application/helpers/preferences_shared/shared_prefs.dart';
 import 'package:viptrack/screens/offer_ride/screen_offer_ride_prepare.dart';
-import 'package:viptrack/services/maps_service.dart';
 import '../main.dart';
-import 'package:viptrack/helpers/preferences_shared/shared_prefs.dart';
 
 class ScreenOffenRide extends StatefulWidget {
   const ScreenOffenRide({super.key});
@@ -65,14 +64,6 @@ class _ScreenOffenRideState extends State<ScreenOffenRide> {
 
     CameraPosition cameraPosition = CameraPosition(target: latLngPosition, zoom: 15);
     newGoogleMapController!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-
-    // Marker currentLocationMarker = Marker(
-    //   markerId: const MarkerId('current_location'),
-    //   position: LatLng(latLngPosition.latitude, latLngPosition.longitude),
-    // );
-    // setState(() {
-    //   markerSet.add(currentLocationMarker);
-    // });
   }
 
   getAddressFromLatLng() async {

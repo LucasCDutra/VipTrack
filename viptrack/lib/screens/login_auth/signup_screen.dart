@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:viptrack/components/components.dart';
-import 'package:viptrack/components/under_part.dart';
-import 'package:viptrack/controller/register_controller.dart';
+import 'package:viptrack/application/controller/register_controller.dart';
 import 'package:viptrack/screens/screens.dart';
+import 'package:viptrack/widgets/components.dart';
+import 'package:viptrack/widgets/under_part.dart';
 import 'package:viptrack/widgets/widgets.dart';
 
 class SignUpScreen extends StatefulWidget {

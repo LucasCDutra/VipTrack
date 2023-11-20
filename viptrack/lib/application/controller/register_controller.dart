@@ -13,7 +13,6 @@ class RegisterController extends GetxController {
   }
 
   void registerUser(BuildContext context) async {
-    print("Resgister => ");
     showDialog(
         context: context,
         builder: (context) {
@@ -27,12 +26,9 @@ class RegisterController extends GetxController {
     String confirmpass = confirmPasswordController.text;
 
     try {
-      print('pass = $pass');
-      print('cpas = $confirmpass');
       print(pass != confirmpass);
       if (pass == confirmpass) {
-        await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(email: email, password: pass);
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: pass);
         Navigator.pop(context);
       } else {
         Navigator.pop(context);
@@ -50,14 +46,12 @@ class RegisterController extends GetxController {
           wrongMessage(context, "Senha muito fraca");
           break;
         default:
-          wrongMessage(context,
-              "Não foi possivel criar uma nova conta no momento, tente novamente mais tarde!");
+          wrongMessage(context, "Não foi possivel criar uma nova conta no momento, tente novamente mais tarde!");
       }
     }
   }
 
   void wrongMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 }

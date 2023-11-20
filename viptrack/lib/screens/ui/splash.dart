@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
 import 'package:geolocator/geolocator.dart';
-import 'package:viptrack/helpers/preferences_shared/shared_prefs.dart';
+import 'package:viptrack/application/helpers/preferences_shared/shared_prefs.dart';
 import 'package:viptrack/screens/login_auth/auth_screen.dart';
-import 'package:viptrack/services/maps_service.dart';
 import 'package:viptrack/utils/map/user_map_info.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);

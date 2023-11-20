@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:viptrack/components/bottom_bar_custom.dart';
-import 'package:viptrack/controller/base_controller.dart';
-import 'package:viptrack/controller/login_controller.dart';
+import 'package:viptrack/application/controller/base_controller.dart';
+import 'package:viptrack/application/controller/login_controller.dart';
+import 'package:viptrack/application/controller/user_controller.dart';
 import 'package:viptrack/screens/screen_messages.dart';
 import 'package:viptrack/screens/screen_offer_ride.dart';
 import 'package:viptrack/screens/screen_perfil.dart';
 import 'package:viptrack/screens/screen_search_car.dart';
+import 'package:viptrack/widgets/bottom_bar_custom.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,6 +16,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final UserController userController = UserController();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(milliseconds: 150)).then((value) => userController.verifUserData(context));
+  }
+
   @override
   Widget build(BuildContext context) {
     final LoginController loginController = LoginController();
@@ -29,12 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        // actions: [
-        //   IconButton(
-        //     onPressed: () => loginController.logoutUser(),
-        //     icon: const Icon(Icons.logout_outlined),
-        //   ),
-        // ],
       ),
       bottomNavigationBar: Container(
         color: Colors.black,

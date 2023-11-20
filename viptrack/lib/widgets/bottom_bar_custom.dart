@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:viptrack/controller/base_controller.dart';
+import 'package:viptrack/application/controller/base_controller.dart';
 
 class BottomBarCustom extends StatelessWidget {
   final BaseController controller;
@@ -16,7 +16,7 @@ class BottomBarCustom extends StatelessWidget {
       color: Colors.white,
       tabBackgroundColor: Colors.grey.shade800,
       padding: const EdgeInsets.all(14),
-      onTabChange: (index) => controller.navigateForBottomBar(index),
+      onTabChange: (index) => controller.navigateForBottomBar(index, context),
       tabs: const [
         GButton(icon: Icons.search_rounded, text: 'Procurar'),
         GButton(icon: Icons.drive_eta_rounded, text: 'Oferecer'),

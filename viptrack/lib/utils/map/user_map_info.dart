@@ -3,11 +3,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:viptrack/helpers/preferences_shared/shared_prefs.dart';
+import 'package:viptrack/application/helpers/preferences_shared/shared_prefs.dart';
+import 'package:viptrack/domain/services/maps_service.dart';
 import 'package:viptrack/main.dart';
-import 'package:viptrack/models/suggestion.dart';
-import 'package:viptrack/services/maps_service.dart';
-import 'package:viptrack/services/request/request_get.dart';
+import 'package:viptrack/domain/models/direction_details_info.dart';
+import 'package:viptrack/domain/models/directions.dart';
+import 'package:viptrack/domain/models/suggestion.dart';
 
 class UserMapInfo {
   getUserInfosForMap() async {
@@ -21,8 +22,9 @@ class UserMapInfo {
     sharedPref.setUserLocation(currentLocation);
 
     // Get the current user address
-    String currentAddress = await MapServices.searchAddressGeoCoord(currentLocation);
-    sharedPreferences.setString('current-address', currentAddress);
+    Directions currentAddress = await MapServices.searchAddressGeoCoord(currentLocation);
+    sharedPref.setDirection(currentAddress, isSource: true);
+    sharedPreferences.setString('current-address', '${currentAddress.address}');
   }
 
   static Future<List> findPlaceAutoCompleteSearch(String inputText) async {

@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:viptrack/ui/splash.dart';
+import 'package:viptrack/screens/ui/splash.dart';
 import 'utils/config/firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
