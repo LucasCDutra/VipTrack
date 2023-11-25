@@ -49,7 +49,6 @@ class _ReviewRideState extends State<ReviewRide> {
 
   initialiseDirectionsResponse() {
     distance = (widget.directionDetails.distance_value! / 1000).toStringAsFixed(1);
-    dropOffTime = getDropOffTime(widget.directionDetails.duration_value!);
   }
 
   LatLng? pickLocation;
@@ -156,7 +155,7 @@ class _ReviewRideState extends State<ReviewRide> {
         southwest: widget.latLngDestination,
         northeast: widget.latLngSource,
       );
-    } else if (originLat > destLong) {
+    } else if (originLong > destLong) {
       boundsLatLng = LatLngBounds(
         southwest: LatLng(originLat, destLong),
         northeast: LatLng(destLat, originLong),
@@ -219,12 +218,25 @@ class _ReviewRideState extends State<ReviewRide> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(15),
+          ),
+        ),
+        backgroundColor: Colors.black,
         leading: IconButton(
+            color: Colors.white,
             onPressed: () {
               Navigator.of(context).pop();
             },
             icon: const Icon(Icons.arrow_back)),
-        title: const Text('Review Ride'),
+        title: const Padding(
+          padding: EdgeInsets.only(left: 50),
+          child: Text(
+            'Rota do caminho',
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
       ),
       body: SafeArea(
         child: Stack(
@@ -240,12 +252,12 @@ class _ReviewRideState extends State<ReviewRide> {
                   polylines: polyLineSet,
                   markers: markerSet,
                   circles: circleSet,
-                  onMapCreated: (controller) {
+                  onMapCreated: (controller) async {
                     _controllerGoogleMap.complete(controller);
                     newGoogleMapController = controller;
                     setState(() {});
-                    drawPoliLinesRoute(false);
-                    locateUserPosition();
+                    await drawPoliLinesRoute(false);
+                    //locateUserPosition();
                   },
                   onCameraMove: (position) {
                     if (pickLocation != position.target) {
@@ -258,7 +270,8 @@ class _ReviewRideState extends State<ReviewRide> {
                     getAddressFromLatLng();
                   }),
             ),
-            reviewRideBottomSheet(context, distance, dropOffTime),
+            reviewRideBottomSheet(
+                context, distance, widget.directionDetails.duration_text, widget.directionDetails.duration_value),
           ],
         ),
       ),

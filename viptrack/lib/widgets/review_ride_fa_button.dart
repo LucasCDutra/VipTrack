@@ -36,5 +36,5 @@ Widget reviewRideFaButton(BuildContext context) {
                       latLngDestination: latlngDestination,
                     )));
       },
-      label: const Text('Review Ride'));
+      label: const Text('Ver Caminho'));
 }

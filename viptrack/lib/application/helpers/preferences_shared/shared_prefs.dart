@@ -1,12 +1,37 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:viptrack/domain/models/user.dart';
 import 'dart:convert';
 import 'package:viptrack/main.dart';
 import 'package:viptrack/domain/models/direction_details_info.dart';
 import 'package:viptrack/domain/models/directions.dart';
 
 class SharedPref extends GetxController {
+  void setUserCurrent(UserApp user) {
+    sharedPreferences.setString('uid', user.uid ?? '');
+    sharedPreferences.setString('nome', user.nome ?? '');
+    sharedPreferences.setString('email', user.email ?? '');
+    sharedPreferences.setString('telefone', user.telefone ?? '');
+  }
+
+  UserApp getUserCurrent() {
+    String? uid = sharedPreferences.getString('uid');
+    String? nome = sharedPreferences.getString('nome');
+    String? email = sharedPreferences.getString('email');
+    String? telefone = sharedPreferences.getString('telefone');
+    final userAuth = FirebaseAuth.instance;
+
+    return UserApp(
+      uid: uid,
+      nome: nome,
+      email: email,
+      telefone: telefone,
+      auth: userAuth,
+    );
+  }
+
   void setUserLocation(LatLng location) async {
     sharedPreferences.setDouble('latitude', location.latitude);
     sharedPreferences.setDouble('longitude', location.longitude);
@@ -24,6 +49,7 @@ class SharedPref extends GetxController {
     source.locationid != null ? sharedPreferences.setString('${type}_id', source.locationid!) : '';
     source.locationLatitude != null ? sharedPreferences.setDouble('${type}_latitude', source.locationLatitude!) : '';
     source.locationLongitude != null ? sharedPreferences.setDouble('${type}_longitude', source.locationLongitude!) : '';
+    source.city != null ? sharedPreferences.setString('${type}_city', source.city!) : '';
   }
 
   Directions getUserSourceDirection({bool isSource = true}) {
@@ -34,6 +60,7 @@ class SharedPref extends GetxController {
     source.locationid = sharedPreferences.getString('${type}_id');
     source.locationLatitude = sharedPreferences.getDouble('${type}_latitude');
     source.locationLongitude = sharedPreferences.getDouble('${type}_longitude');
+    source.city = sharedPreferences.getString('${type}_city');
 
     return source;
   }

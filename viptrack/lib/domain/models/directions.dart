@@ -4,6 +4,7 @@ class Directions {
   String? locationid;
   double? locationLatitude;
   double? locationLongitude;
+  String? city;
 
   Directions({
     this.address,
@@ -11,5 +12,6 @@ class Directions {
     this.locationid,
     this.locationLatitude,
     this.locationLongitude,
+    this.city,
   });
 }

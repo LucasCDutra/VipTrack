@@ -18,11 +18,14 @@ class MapServices {
 
     if (requestResponse != "Error Occured. Failed. No Response.") {
       currentAddress = requestResponse["results"][0]["formatted_address"];
+      String cityAddress = requestResponse['results'][0]['address_components'][2]['short_name'];
+      String stateAddress = requestResponse['results'][0]['address_components'][3]['short_name'];
 
       userPickUpAddress = Directions(
         address: currentAddress,
         locationLatitude: position.latitude,
         locationLongitude: position.longitude,
+        city: '$cityAddress - $stateAddress',
       );
     }
     return userPickUpAddress;
@@ -30,7 +33,7 @@ class MapServices {
 
   static Future<List> findPlaceAutoComplete(String inputText) async {
     String urlAutoCompleteSearch =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$inputText&key=${dotenv.env["MAP_KEY"]}&components=country:BR';
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$inputText&key=${dotenv.env["MAP_KEY"]}&components=country:BR&language=pt-BR';
 
     var responseAutoCompleteSearch = await RequestGet.requestWithUrl(urlAutoCompleteSearch);
     List placePredicitionsList = [];
@@ -44,16 +47,21 @@ class MapServices {
 
   static Future<Directions> getPlaceDiretionsDetails(String placeId) async {
     String urlAutoCompleteSearch =
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=${dotenv.env["MAP_KEY"]}';
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&key=${dotenv.env["MAP_KEY"]}&language=pt-BR';
 
     var response = await RequestGet.requestWithUrl(urlAutoCompleteSearch);
     Directions directions = Directions();
     if (response['status'] == 'OK') {
+      String cityAddress = '';
+      String stateAddress = '';
+      String name = response['result']['name'];
+
       directions.address = response['result']['formatted_address'];
       directions.locationName = response['result']['address_components'][0]['short_name'];
       directions.locationid = response['result']['place_id'];
       directions.locationLatitude = response['result']['geometry']['location']['lat'];
       directions.locationLongitude = response['result']['geometry']['location']['lng'];
+      directions.city = name;
     }
     return directions;
   }
@@ -61,7 +69,7 @@ class MapServices {
   static Future<DirectionDetaislInfo> obtainOriginToDestination(
       LatLng originPosition, LatLng destinationPosition) async {
     String urlOriginToDestination =
-        'https://maps.googleapis.com/maps/api/directions/json?origin=${originPosition.latitude},${originPosition.longitude}&destination=${destinationPosition.latitude},${destinationPosition.longitude}&key=${dotenv.env["MAP_KEY"]}';
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${originPosition.latitude},${originPosition.longitude}&destination=${destinationPosition.latitude},${destinationPosition.longitude}&key=${dotenv.env["MAP_KEY"]}&language=pt-BR';
 
     var response = await RequestGet.requestWithUrl(urlOriginToDestination);
 
