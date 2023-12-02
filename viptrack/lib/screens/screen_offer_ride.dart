@@ -105,7 +105,7 @@ class _ScreenOffenRideState extends State<ScreenOffenRide> {
           Stack(
             children: [
               Container(
-                height: size.height * 0.60,
+                height: size.height * 0.58,
                 child: GoogleMap(
                     mapType: MapType.normal,
                     myLocationEnabled: true,

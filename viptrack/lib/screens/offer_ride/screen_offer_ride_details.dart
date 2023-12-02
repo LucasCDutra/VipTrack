@@ -29,6 +29,7 @@ class _OfferRideDetailsState extends State<OfferRideDetails> {
     widget.carona.motoristanome = user.nome;
     widget.carona.motoristaemail = user.email;
     widget.carona.motoristatelefone = user.telefone;
+    widget.carona.motoristauid = user.uid;
 
     widget.carona.data = UtilData.obterDataDDMMAAAA(dateTime);
     widget.carona.horaInico = UtilData.obterHoraHHMM(dateTime);

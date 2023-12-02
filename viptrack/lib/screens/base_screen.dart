@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:viptrack/application/controller/base_controller.dart';
 import 'package:viptrack/application/controller/login_controller.dart';
 import 'package:viptrack/application/controller/user_controller.dart';
-import 'package:viptrack/screens/screen_messages.dart';
+import 'package:viptrack/screens/screen_caronas.dart';
 import 'package:viptrack/screens/screen_offer_ride.dart';
 import 'package:viptrack/screens/screen_perfil.dart';
 import 'package:viptrack/screens/screen_search_car.dart';
@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: const [
           ScreenSearchCar(),
           ScreenOffenRide(),
-          ScreenMessage(),
+          ScreenCaronas(),
           ScreenPerfil(),
         ],
       ),

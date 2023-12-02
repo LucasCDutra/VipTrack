@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:viptrack/application/controller/base_controller.dart';
 
@@ -20,7 +21,7 @@ class BottomBarCustom extends StatelessWidget {
       tabs: const [
         GButton(icon: Icons.search_rounded, text: 'Procurar'),
         GButton(icon: Icons.drive_eta_rounded, text: 'Oferecer'),
-        GButton(icon: Icons.message_outlined, text: 'Mensagens'),
+        GButton(icon: FontAwesomeIcons.handshakeSimple, text: 'Caronas'),
         GButton(icon: Icons.person, text: 'Perfil'),
       ],
     );

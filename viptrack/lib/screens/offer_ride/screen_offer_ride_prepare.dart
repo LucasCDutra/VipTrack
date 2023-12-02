@@ -19,8 +19,8 @@ class _PrepareRideState extends State<PrepareRide> {
   bool hasResponded = false;
   bool isResponseForDestination = false;
 
-  String noRequest = 'Please enter an address, a place or a location to search';
-  String noResponse = 'No results found for the search';
+  String noRequest = 'Insira um endereço, um lugar ou um local para pesquisar';
+  String noResponse = 'Nenhum resultado encontrado para a pesquisa';
 
   List responses = [];
   TextEditingController sourceController = TextEditingController();

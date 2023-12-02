@@ -4,6 +4,7 @@ import 'package:viptrack/application/handlers/carona_handler.dart';
 import 'package:viptrack/domain/models/carona.dart';
 import 'package:viptrack/screens/search_car/info_search_car.dart';
 import 'package:viptrack/utils/formatters.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ScreenSearchCar extends StatefulWidget {
   const ScreenSearchCar({super.key});
@@ -29,25 +30,52 @@ class _ScreenSearchCarState extends State<ScreenSearchCar> {
     return Container(
       height: double.infinity,
       width: double.infinity,
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       child: FutureBuilder(
           future: CaronaHandler().getAllCaronas(),
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasError) {
               if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
+                return Shimmer.fromColors(
+                    // ignore: sort_child_properties_last
+                    child: ListView.builder(
+                        itemCount: 20,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            margin: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(10),
+                            height: 120,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromARGB(255, 168, 168, 168).withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 8,
+                                    offset: const Offset(1, 3), // changes position of shadow
+                                  ),
+                                ],
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: const Color.fromARGB(179, 158, 158, 158), width: 1.5)),
+                          );
+                        }),
+                    baseColor: const Color.fromARGB(255, 228, 228, 228),
+                    highlightColor: Color.fromARGB(255, 218, 216, 216));
+                //  return const Center(child: CircularProgressIndicator());
               } else {
                 return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       Carona? cinfo = snapshot.data[index];
-
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => InfoSearchCar(carona: cinfo),
+                              builder: (_) => InfoSearchCar(
+                                carona: cinfo,
+                                historico: false,
+                              ),
                             ),
                           );
                         },

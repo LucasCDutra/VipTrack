@@ -5,6 +5,7 @@ import 'package:viptrack/application/controller/firebase_controller.dart';
 import 'package:viptrack/application/database/db_firestore.dart';
 
 class Carona {
+  String? uid;
   String? origem;
   String? origemCompleto;
   String? destino;
@@ -16,15 +17,18 @@ class Carona {
   String? duracao;
   int? duracaoInt;
   String? motoristanome;
+  String? motoristauid;
   String? motoristatelefone;
   String? motoristaemail;
+  String? passageirouid;
   String? passageironome;
   String? passageirotelefone;
   String? passageiroemail;
-  bool? finalizada;
+  String? status;
   String? distancia;
 
   Carona({
+    this.uid,
     this.origem,
     this.origemCompleto,
     this.destino,
@@ -35,18 +39,21 @@ class Carona {
     this.horaFim,
     this.duracao,
     this.motoristanome,
+    this.motoristauid,
     this.motoristatelefone,
     this.motoristaemail,
     this.passageironome,
+    this.passageirouid,
     this.passageirotelefone,
     this.passageiroemail,
-    this.finalizada,
+    this.status,
     this.distancia,
     this.duracaoInt,
   });
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['uid'] = uid;
     data['origem'] = origem;
     data['origemCompleto'] = origemCompleto;
     data['detino'] = destino;
@@ -57,18 +64,21 @@ class Carona {
     data['horaFim'] = horaFim;
     data['duracao'] = duracao;
     data['motoristanome'] = motoristanome;
+    data['motoristauid'] = motoristauid;
     data['motoristatelefone'] = motoristatelefone;
     data['motoristaemail'] = motoristaemail;
     data['passageironome'] = passageironome;
+    data['passageirouid'] = passageirouid;
     data['passageirotelefone'] = passageirotelefone;
     data['passageiroemail'] = passageiroemail;
-    data['finalizada'] = finalizada;
+    data['status'] = status;
     data['distancia'] = distancia;
     data['duracaoInt'] = duracaoInt;
     return data;
   }
 
   Carona.fromJson(Map<String, dynamic> jsonData) {
+    uid = jsonData['uid'];
     origem = jsonData['origem'];
     origemCompleto = jsonData['origemCompleto'];
     destino = jsonData['destino'];
@@ -79,12 +89,14 @@ class Carona {
     horaFim = jsonData['horaFim'];
     duracao = jsonData['duracao'];
     motoristanome = jsonData['motoristanome'];
+    motoristauid = jsonData['motoristauid'];
     motoristatelefone = jsonData['motoristatelefone'];
     motoristaemail = jsonData['motoristaemail'];
-    passageironome = jsonData['motoristanome'];
+    passageironome = jsonData['passageironome'];
+    passageirouid = jsonData['passageirouid'];
     passageirotelefone = jsonData['passageirotelefone'];
     passageiroemail = jsonData['passageiroemail'];
-    finalizada = jsonData['finalizada'];
+    status = jsonData['status'];
     distancia = jsonData['distancia'];
     duracaoInt = jsonData['duracaoInt'];
   }

@@ -16,7 +16,14 @@ class Splash extends StatefulWidget {
   State<Splash> createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashState extends State<Splash> with TickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1500),
+  )..repeat();
+  late final Animation<double> _scaleAnimation = Tween<double>(begin: 0.6, end: 1.2).animate(_controller);
+  late final Animation<double> _fadeAnimation = Tween<double>(begin: 1, end: 0.2).animate(_controller);
+
   @override
   void initState() {
     super.initState();
@@ -47,11 +54,37 @@ class _SplashState extends State<Splash> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.black,
-      child: Center(
-        child: Image.asset("assets/images/logo/viptrack.png"),
+      child: Stack(
+        children: [
+          Center(
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: ScaleTransition(
+                scale: _scaleAnimation,
+                child: Container(
+                  width: 80 * 1.5,
+                  height: 80 * 1.5,
+                  decoration: const BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 155, 155, 155)),
+                ),
+              ),
+            ),
+          ),
+          Center(
+            child: Image.asset(
+              "assets/images/logo/viptrack_circle.png",
+              scale: 4,
+            ),
+          ),
+        ],
       ),
     );
   }

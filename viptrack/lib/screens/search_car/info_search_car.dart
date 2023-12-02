@@ -2,18 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:viptrack/application/handlers/carona_handler.dart';
+import 'package:viptrack/application/helpers/preferences_shared/shared_prefs.dart';
 import 'package:viptrack/domain/models/carona.dart';
 import 'package:viptrack/utils/formatters.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 
-class InfoSearchCar extends StatelessWidget {
+class InfoSearchCar extends StatefulWidget {
   final Carona carona;
+  final bool historico;
 
-  const InfoSearchCar({super.key, required this.carona});
+  const InfoSearchCar({super.key, required this.carona, this.historico = false});
 
+  @override
+  State<InfoSearchCar> createState() => _InfoSearchCarState();
+}
+
+class _InfoSearchCarState extends State<InfoSearchCar> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    SharedPref sharedPref = SharedPref();
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +70,7 @@ class InfoSearchCar extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          '${getSplitDataInfo(carona.data!, "d")}',
+                          '${getSplitDataInfo(widget.carona.data!, "d")}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
@@ -69,7 +78,7 @@ class InfoSearchCar extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${getSplitDataInfo(carona.data!, "m")}',
+                          '${getSplitDataInfo(widget.carona.data!, "m")}',
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 20,
@@ -77,7 +86,7 @@ class InfoSearchCar extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${getSplitDataInfo(carona.data!, "a")}',
+                          '${getSplitDataInfo(widget.carona.data!, "a")}',
                           style: const TextStyle(
                             height: 1,
                             fontSize: 15,
@@ -88,7 +97,7 @@ class InfoSearchCar extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          '${carona.origem ?? carona.origem}',
+                          '${widget.carona.origem ?? widget.carona.origem}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             //color: Color.fromARGB(255, 27, 71, 151),
@@ -101,7 +110,7 @@ class InfoSearchCar extends StatelessWidget {
                           color: const Color.fromARGB(255, 201, 201, 201),
                         ),
                         Text(
-                          '${carona.destino ?? carona.destinoCompleto}',
+                          '${widget.carona.destino ?? widget.carona.destinoCompleto}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             //color: const Color.fromARGB(255, 21, 105, 25),
@@ -119,7 +128,7 @@ class InfoSearchCar extends StatelessWidget {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: '${carona.horaInico}',
+                            text: '${widget.carona.horaInico}',
                             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                           WidgetSpan(
@@ -131,7 +140,7 @@ class InfoSearchCar extends StatelessWidget {
                                   top: 30,
                                   //right: ,
                                   child: Text(
-                                    '${carona.duracao}',
+                                    '${widget.carona.duracao}',
                                     style: const TextStyle(fontSize: 10),
                                   ),
                                 ),
@@ -145,7 +154,7 @@ class InfoSearchCar extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
                           ),
                           TextSpan(
-                            text: '${carona.horaFim}',
+                            text: '${widget.carona.horaFim}',
                             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -160,7 +169,7 @@ class InfoSearchCar extends StatelessWidget {
                       child: Icon(Icons.person_4_rounded),
                     ),
                     Text(
-                      formatFullName('${carona.motoristanome}'),
+                      formatFullName('${widget.carona.motoristanome}'),
                       style: const TextStyle(fontSize: 17),
                     ),
                   ],
@@ -170,7 +179,7 @@ class InfoSearchCar extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 25),
                       child: Text(
-                        '${carona.valor}',
+                        '${widget.carona.valor}',
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.green.shade700,
@@ -180,37 +189,112 @@ class InfoSearchCar extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Passageiro'),
+                          Row(
+                            children: [
+                              const Icon(Icons.person_pin),
+                              Text(
+                                formatFullName(widget.carona.passageironome ?? 'Nenhum passageiro reservado'),
+                                style: const TextStyle(fontSize: 17),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30),
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                FloatingActionButton(
-                  heroTag: "whatsapp",
-                  backgroundColor: Colors.green.shade800,
-                  onPressed: () {
-                    launchWhatsApp('${carona.motoristatelefone}');
-                  },
-                  child: const FaIcon(
-                    FontAwesomeIcons.whatsapp,
-                    color: Colors.white,
+                widget.historico && widget.carona.passageirouid != null
+                    ? FloatingActionButton(
+                        heroTag: "whatsapp",
+                        backgroundColor: Colors.green.shade800,
+                        onPressed: () {
+                          launchWhatsApp(widget.carona.passageirouid == sharedPref.getUserCurrent().uid
+                              ? '${widget.carona.motoristatelefone}'
+                              : '${widget.carona.passageirotelefone}');
+                        },
+                        child: const FaIcon(
+                          FontAwesomeIcons.whatsapp,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Container(),
+                if (widget.carona.passageirouid == null &&
+                    widget.carona.motoristauid != sharedPref.getUserCurrent().uid)
+                  FloatingActionButton.extended(
+                    heroTag: "reservarcarona",
+                    backgroundColor: Colors.black,
+                    onPressed: () {
+                      setState(() {
+                        widget.carona.passageirouid = sharedPref.getUserCurrent().uid;
+                        widget.carona.passageironome = sharedPref.getUserCurrent().nome;
+                        widget.carona.passageiroemail = sharedPref.getUserCurrent().email;
+                        widget.carona.passageirotelefone = sharedPref.getUserCurrent().telefone;
+                        widget.carona.status = 'R';
+                        CaronaHandler().updateCarona(widget.carona);
+                      });
+                    },
+                    label: const Text(
+                      'Reservar Carona',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-                FloatingActionButton.extended(
-                  heroTag: "reservarcarona",
-                  backgroundColor: Colors.black,
-                  onPressed: () {},
-                  label: const Text(
-                    'Solicitar Reserva da Carona',
-                    style: TextStyle(color: Colors.white),
+                if (widget.carona.passageirouid == sharedPref.getUserCurrent().uid)
+                  FloatingActionButton.extended(
+                    heroTag: "cancelarcarona",
+                    backgroundColor: Colors.black,
+                    onPressed: () {
+                      setState(() {
+                        widget.carona.passageirouid = null;
+                        widget.carona.passageironome = null;
+                        widget.carona.passageiroemail = null;
+                        widget.carona.passageirotelefone = null;
+                        widget.carona.status = 'A';
+                        CaronaHandler().updateCarona(widget.carona);
+                      });
+                    },
+                    label: const Text(
+                      'Cancelar Carona',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
+                if (widget.carona.motoristauid == sharedPref.getUserCurrent().uid)
+                  FloatingActionButton.extended(
+                    heroTag: "encerrarcarona",
+                    backgroundColor: const Color.fromARGB(255, 168, 47, 38),
+                    onPressed: () {
+                      setState(() {
+                        widget.carona.status = 'F';
+                        CaronaHandler().updateCarona(widget.carona);
+                      });
+                    },
+                    label: const Text(
+                      'Encerrar Carona',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                if (widget.carona.passageirouid != sharedPref.getUserCurrent().uid &&
+                    widget.carona.passageirouid != null)
+                  Container(),
               ],
             ),
-          ),
+          )
         ],
       ),
     );
@@ -218,7 +302,7 @@ class InfoSearchCar extends StatelessWidget {
 
   launchWhatsApp(String numberPhone) async {
     String msg =
-        "Olá ${formatFirstName(carona.motoristanome)}! \n Vim atráves do aplicativo VIPTrack, tenho interesse na carona do dia ${carona.data} \n ${carona.origem} para ${carona.destino} \n Com o valor de ${carona.valor}.";
+        "Olá ${formatFirstName(widget.carona.motoristanome)}! \n Vim atráves do aplicativo VIPTrack, tenho interesse na carona do dia ${widget.carona.data} \n ${widget.carona.origem} para ${widget.carona.destino} \n Com o valor de ${widget.carona.valor}.";
 
     if (numberPhone != null) {
       final link = WhatsAppUnilink(
